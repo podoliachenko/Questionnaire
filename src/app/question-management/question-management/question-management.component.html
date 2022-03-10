@@ -1,0 +1,14 @@
+<div class="create-question"><a routerLink="create-question">Create New Question</a></div>
+<div class="questions">
+  <div class="question" *ngFor="let question of questions">
+    <div>
+      <div>{{question.title}}</div>
+      <div>type: {{question.type}}</div>
+      <div>{{question.timestamp | date: 'dd MMMM YYYY HH:mm'}}</div>
+    </div>
+    <div class="actions">
+      <button (click)="deleteQuestion(question.id)">Delete</button>
+      <button [routerLink]="['edit-question', question.id]">Edit</button>
+    </div>
+  </div>
+</div>

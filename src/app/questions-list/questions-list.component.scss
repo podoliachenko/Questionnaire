@@ -1,0 +1,30 @@
+.questions {
+  display: flex;
+
+  .not-answered, .answered {
+    width: 50%;
+  }
+
+  .not-answered, .answered {
+    .card {
+      border: 1px solid gray;
+      padding: 6px;
+      margin: 6px;
+      border-radius: 6px;
+    }
+  }
+}
+
+.answers {
+  input {
+    margin-right: 20px;
+  }
+}
+
+
+.question-title {
+  margin-bottom: 6px;
+}
+.answer-form {
+  margin-bottom: 12px;
+}

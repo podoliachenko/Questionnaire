@@ -1,0 +1,19 @@
+.create-question {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.questions {
+  margin-top: 20px;
+}
+
+.question {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  .actions {
+    button {
+      margin-left: 6px;
+    }
+  }
+}

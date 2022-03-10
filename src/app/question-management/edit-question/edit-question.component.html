@@ -1,0 +1,67 @@
+<div><a routerLink="/question-management"><- Back</a></div>
+<h3 *ngIf="!isEdit">New Question</h3>
+<h3 *ngIf="isEdit">Edit Question</h3>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <label for="title">Title:</label>
+  <div class="title control">
+    <input type="text" id="title" formControlName="title" placeholder="Title">
+    <ng-container *ngIf="submitted">
+      <div class="error" *ngIf="form.get('title') as control">
+        <ng-container *ngIf="control.errors as errors">
+          <span *ngIf="errors['required']">This is a required field</span>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+  <label>Type:</label>
+  <div class="type control">
+    <label> Single
+      <input formControlName="type" type="radio" name="type" value="single">
+    </label>
+    <label> Multiple
+      <input formControlName="type" type="radio" name="type" value="multiple">
+    </label>
+    <label> Open
+      <input formControlName="type" type="radio" name="type" value="open">
+    </label>
+    <ng-container *ngIf="submitted">
+      <div class="error" *ngIf="form.get('type') as control">
+        <ng-container *ngIf="control.errors as errors">
+          <span *ngIf="errors['required']">This is a required field</span>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="form.get('type')?.value as type">
+    <div *ngIf="type === 'single' || type === 'multiple'" formArrayName="answerOptions">
+      <label>Answers:</label>
+      <ng-container *ngIf="getAnswersFormArray() as answers">
+        <div *ngFor="let answer of answers.controls; let i = index" class="control">
+          <input type="text" [formControlName]="i">
+          <button (click)="removeAnswer(i)">remove</button>
+          <ng-container *ngIf="submitted">
+            <div class="error" *ngIf="answer as control">
+              <ng-container *ngIf="control.errors as errors">
+                <span *ngIf="errors['required']">This is a required field</span>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+      <div>
+        <button (click)="addQuestion()"> + add answer</button>
+      </div>
+      <ng-container *ngIf="submitted">
+        <div class="error" *ngIf="form.get('answerOptions') as control">
+          <ng-container *ngIf="control.errors as errors">
+            <span *ngIf="errors['minlength']">Must have at least two answers</span>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+  <div>
+    <button type="submit" *ngIf="isEdit">Edit</button>
+    <button type="submit" *ngIf="!isEdit">Create</button>
+  </div>
+</form>

@@ -1,0 +1,39 @@
+<div class="questions">
+  <div class="not-answered">
+    <div class="card" *ngFor="let question of notAnswered">
+      <ng-container *ngTemplateOutlet="answers; context: {$implicit:question}"></ng-container>
+    </div>
+  </div>
+  <div class="answered">
+    <div class="card" *ngFor="let question of answered">
+      <ng-container *ngTemplateOutlet="answers; context: {$implicit:question, answered: true}"></ng-container>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #answers let-question let-answeredCard="answered">
+  <div class="question-title">{{ question.title }}</div>
+  <ng-container *ngIf="getFormGroupById(question.id) as form">
+    <form [formGroup]="form" class="answer-form">
+      <div *ngIf="question.type === 'single'" class="answers">
+        <label *ngFor="let answer of question.answerOptions"> {{answer}}
+          <input type="radio" [value]="answer" name="answer" formControlName="answer">
+        </label>
+      </div>
+      <div *ngIf="question.type === 'multiple'" class="answers" formArrayName="answer">
+        <label *ngFor="let answer of question.answerOptions; let i = index"> {{answer}}
+          <input type="checkbox" [value]="answer" name="answer" [formControlName]="i">
+        </label>
+      </div>
+
+      <div *ngIf="question.type === 'open'" class="answers">
+        <input type="text" formControlName="answer">
+      </div>
+    </form>
+    <div>
+      <button (click)="reply(question.id, form)" *ngIf="!answeredCard" [disabled]="form.invalid">Answer</button>
+      <button (click)="cancel(question.id)" *ngIf="answeredCard">Cancel</button>
+    </div>
+  </ng-container>
+</ng-template>
